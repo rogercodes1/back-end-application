@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'sessions/create'
+  get 'sessions/destroy'
   namespace :api, defaults: { format: :json }, path: '/api'  do
   # namespace :api do
     namespace :v1 do

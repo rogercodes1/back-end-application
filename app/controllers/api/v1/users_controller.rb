@@ -11,7 +11,9 @@ class Api::V1::UsersController < ApplicationController
      @user.save
      render json: @user
     else
-      render json: {error: "something went wrong!"}
+      render json: {
+         errors: @user.errors.full_messages
+      }, status: :unprocessable_entity}
     end
   end
 
