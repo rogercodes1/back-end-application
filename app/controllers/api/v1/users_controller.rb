@@ -6,14 +6,26 @@ class Api::V1::UsersController < ApplicationController
 
   def create
     @user = User.new(get_params)
+    @user.email = params[:email]
+    @user.password = params[:password]
+    byebug
+    if (@user.save)
+      payload = {
+         email: @user.email,
+         id: @user.id
+       }
+      # IMPORTANT: set nil as password parameter
+      token = JWT.encode payload, ENV['JWT_SECRET'], 'HS256'
 
-    if @user.valid?
-     @user.save
-     render json: @user
+      render json: {
+        message: "You have been registed",
+        token: token
+
+        }
     else
       render json: {
-         errors: @user.errors.full_messages
-      }, status: :unprocessable_entity}
+         errors: @user.errors.full_messages,
+         status: :unprocessable_entity}
     end
   end
 
