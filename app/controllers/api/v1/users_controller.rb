@@ -1,6 +1,7 @@
 class Api::V1::UsersController < ApplicationController
   def index
     @users = User.all
+    byebug
     render json: @users
   end
 
@@ -15,7 +16,7 @@ class Api::V1::UsersController < ApplicationController
          id: @user.id
        }
       # IMPORTANT: set nil as password parameter
-      token = JWT.encode payload, ENV['JWT_SECRET'], 'HS256'
+      token = JWT.encode payload, get_secret(), 'HS256'
 
       render json: {
         message: "You have been registed",
@@ -24,8 +25,8 @@ class Api::V1::UsersController < ApplicationController
         }
     else
       render json: {
-         errors: @user.errors.full_messages,
-         status: :unprocessable_entity}
+         errors: @user.errors.full_messages},
+         status: :unprocessable_entity
     end
   end
 
@@ -33,5 +34,7 @@ class Api::V1::UsersController < ApplicationController
 
   def get_params
     params.permit(:first_name, :last_name, :email, :password, :phone)
+    # params.require(:user).permit(:first_name, :last_name, :email, :password, :phone)
+
   end
 end

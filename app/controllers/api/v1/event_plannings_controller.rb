@@ -1,4 +1,6 @@
 class Api::V1::EventPlanningsController < ApplicationController
+  before_action :requires_login, only: [:index]
+
   def index
     @event_plannings = EventPlanning.all
     render json: @event_plannings

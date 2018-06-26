@@ -1,24 +1,44 @@
 class Api::V1::TransactionsController < ApplicationController
-  def index
-    @transactions = Transaction.all.sort_by{|recent| recent.date}
-    render json: @transactions
-  end
+   before_action :requires_login, only: [:index, :user_transactions]
 
-  def create
-     # byebug
-    @transaction = Transaction.new(get_params)
-    
-    if @transaction.valid?
-     @transaction.save
-     render json: @transaction
-    else
-      render json: {error: "something went wrong!"}
-    end
-  end
+   def index
+      @transactions = Transaction.all
+      byebug
+      render json: @transactions
+   end
 
-  private
+   def create
+      byebug
+      @transaction = Transaction.new(get_params)
+      byebug
+      if @transaction.save
+         render json: @transaction
+      else
+         render json: { error: 'something went wrong!' }
+      end
+   end
 
-  def get_params
-    params.require(:transaction).permit(:amount, :date, :description, :transaction_type, :user_id, :category_id)
-  end
+   def user_transactions
+     @user_transactions = Transaction.all.find_by(user_id: params[:user_id])
+     byebug
+     if @user_transactions = get_decoded_token[0]["id"]
+       render json: @user_transactions
+     else
+       render json:{
+         message: "Not your transactions",
+         status: :unauthorized}
+       }
+   end
+
+   private
+
+   def get_params
+      params.require(:transaction).permit(
+        :amount,
+        :date,
+        :description,
+        :transaction_type,
+        :user_id,
+        :category_id)
+   end
 end
