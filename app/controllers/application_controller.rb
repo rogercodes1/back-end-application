@@ -30,14 +30,34 @@ class ApplicationController < ActionController::Base
       render json: {
          message: 'No Auth',
          status: :unauthorized}
+    end
 
-    else
-
-
+  end
+  def requires_user_match
+    @user = User.find(params[:id])
+    if @user.id != get_decoded_token[0]["id"]
+      render json:{
+        message: "Not your transactions",
+        status: :unauthorized}
     end
 
   end
 
+
+#   def requires_user_match
+#   @user = User.find_by(id: params[:user_id])
+#   byebug
+#   if @user.id !== get_decoded_token[0]["id"]
+#     render json: {
+#       message: "Not your snacks!!!!!! Treat yourself!"
+#     }, status: :unauthorized
+#   end
+# end
+
+  # def require_user_match
+  #   if @user_tr.id ==
+  #   #code
+  # end
 
 
 

@@ -1,3 +1,6 @@
 class Category < ApplicationRecord
-  has_many :expenses
+
+  has_many :transactions
+  has_many :bills
+
 end
