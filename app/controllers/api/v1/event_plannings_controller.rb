@@ -9,17 +9,16 @@ class Api::V1::EventPlanningsController < ApplicationController
   def create
     @event_planning = EventPlanning.new(get_params)
 
-    if @event_planning.valid?
-     @event_planning.save
+    if (@event_planning.save)
+
      render json: @event_planning
     else
-      render json: {error: "something went wrong!"}
+      render json: {error: "Events, something went wrong!"}
     end
   end
 
   def show
-    @event_planning = EventPlanning.find(params[:id])
-    render json: @event_planning
+    render json: EventPlanning.find(params[:user_id])
   end
 
   def update

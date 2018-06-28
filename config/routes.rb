@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  get 'sessions/create'
+  post '/sessions/', to: 'sessions#create'
+  # get '/sessions/', to: 'sessions#create'
+
   get 'sessions/destroy'
 
   namespace :api, defaults: { format: :json }, path: '/api'  do

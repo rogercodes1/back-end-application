@@ -13,8 +13,12 @@ class Api::V1::TransactionsController < ApplicationController
       if @transaction.save
          render json: @transaction
       else
-         render json: { error: 'something went wrong!' }
+         render json: { error: 'Transactions, something went wrong!' }
       end
+
+   end
+   def show
+
 
    end
 
