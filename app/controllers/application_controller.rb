@@ -1,18 +1,16 @@
 class ApplicationController < ActionController::Base
    protect_from_forgery with: :null_session
 
-   def get_secret
+    def get_secret
       ENV['JWT_SECRET']
     end
 
    def get_token
-     byebug
       request.headers['Authorization']
    end
 
    # auth tons of routes really quickly  1:36
    def get_decoded_token
-     byebug
      token = get_token()
       begin
          decoded_token = JWT.decode token, get_secret, true, algorithm: 'HS256'
@@ -26,20 +24,20 @@ class ApplicationController < ActionController::Base
       !!get_decoded_token
    end
 
-
   def requires_login
     if !is_authenticated?
       render json: {
          message: 'No Auth',
          status: :unauthorized}
     end
-
   end
+
   def requires_user_match
-    byebug
+
     @user = User.find(params[:id])
-    byebug
+
     if @user.id != get_decoded_token[0]["id"]
+      byebug
       render json:{
         message: "Not your transactions",
         status: :unauthorized}

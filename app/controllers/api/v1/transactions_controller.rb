@@ -18,17 +18,19 @@ class Api::V1::TransactionsController < ApplicationController
 
    end
    def show
-
+     @user = User.find(params[:id])
+    @transactions = @user.transactions
+     #code
+     render json: @transactions
 
    end
 
-
-   end
 
    private
 
    def get_params
       params.permit(
+        :id,
         :amount,
         :date,
         :description,

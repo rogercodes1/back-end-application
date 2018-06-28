@@ -27,14 +27,14 @@ class Api::V1::EventPlanningsController < ApplicationController
     if @event_planning.update(get_params)
       render json: @event_planning
     else
-      render json: {error: "something went wrong!"}
+      render json: {error: "Event update, something went wrong!"}
     end
   end
 
   def destroy
     @event_planning = EventPlanning.find(params[:id])
     @event_planning.destroy
-    render json: {message: "Successful Deletion"}
+    render json: {message: "Event, Successful Deletion"}
   end
 
   private

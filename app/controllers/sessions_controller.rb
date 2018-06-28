@@ -2,9 +2,9 @@ class SessionsController < ApplicationController
 
 
   def create
-    byebug
+
      @user = User.find_by(email: params["email"])
-     byebug
+
      if (@user && @user.authenticate(params["password"]))
        payload = {
          email: @user.email,

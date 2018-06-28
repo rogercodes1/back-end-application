@@ -1,9 +1,9 @@
 class Api::V1::UsersController < ApplicationController
   before_action :requires_login, only: [:index]
-  before_action :requires_user_match, only: [:user_transactions]
+  before_action :requires_user_match, only: [:show]
   def index
     @users = User.all
-    render json: @users
+    render json: @users, include: :transactions
   end
 
   def create
@@ -25,7 +25,6 @@ class Api::V1::UsersController < ApplicationController
         message: "You have been registed",
         token: token,
         id: @user.id
-
         }
     else
       render json: {
@@ -36,25 +35,15 @@ class Api::V1::UsersController < ApplicationController
 
 
   def show
-    byebug
     @user = User.find(params[:id])
-    #code
-    render json: @user
+    render json: @user, include: :transactions
   end
 
-  def user_transactions
-    byebug
-    render json: @user.transactions
-    # @user_transactions = Transaction.find_by(user_id: params[:id])
-    # if @user_transactions.user_id === get_decoded_token[0]["id"]
-    #   render json: @user_transactions
-    # else
-    #   render json:{
-    #     message: "Not your transactions",
-    #     status: :unauthorized}
-    # end
-
-  end
+  # def user_transactions
+  #   byebug
+  #   render json: @user.transactions, include: :transactions
+  #
+  # end
 
 
 
@@ -68,3 +57,12 @@ class Api::V1::UsersController < ApplicationController
 
   end
 end
+
+# @user_transactions = Transaction.find_by(user_id: params[:id])
+# if @user_transactions.user_id === get_decoded_token[0]["id"]
+#   render json: @user_transactions
+# else
+#   render json:{
+#     message: "Not your transactions",
+#     status: :unauthorized}
+# end
