@@ -1,6 +1,7 @@
 class Api::V1::UsersController < ApplicationController
   before_action :requires_login, only: [:index]
   before_action :requires_user_match, only: [:show]
+
   def index
     @users = User.all
     render json: @users, include: :transactions
@@ -45,16 +46,11 @@ class Api::V1::UsersController < ApplicationController
   #
   # end
 
-
-
-
-
   private
 
   def get_params
     params.permit(:first_name, :last_name, :email, :password, :phone)
     # params.require(:user).permit(:first_name, :last_name, :email, :password, :phone)
-
   end
 end
 
