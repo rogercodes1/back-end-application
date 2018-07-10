@@ -1,5 +1,5 @@
 class Api::V1::UsersController < ApplicationController
-  before_action :requires_login, only: [:index]
+  # before_action :requires_login, only: [:index]
   before_action :requires_user_match, only: [:show]
 
   def index
@@ -12,7 +12,7 @@ class Api::V1::UsersController < ApplicationController
     @user = User.new(get_params)
     @user.email = params[:email]
     @user.password = params[:password]
-    byebug
+
     if (@user.save)
       payload = {
 
@@ -37,7 +37,7 @@ class Api::V1::UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    render json: @user, include: :transactions
+    render json: @user, includes: [:transactions,:bills]
   end
 
   # def user_transactions
