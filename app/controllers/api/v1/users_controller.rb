@@ -9,11 +9,14 @@ class Api::V1::UsersController < ApplicationController
 
   def create
     byebug
+
     @user = User.new(get_params)
+    @verify_user = User.find_by(email: params[:email])
     @user.email = params[:email]
     @user.password = params[:password]
     byebug
-    if (@user.save)
+    if (@verify_user === nil && @user.save )
+      byebug
       payload = {
 
          email: @user.email,
@@ -21,13 +24,15 @@ class Api::V1::UsersController < ApplicationController
        }
       # IMPORTANT: set nil as password parameter
       token = JWT.encode payload, get_secret(), 'HS256'
-
+      byebug
       render json: {
         message: "You have been registed",
         token: token,
         id: @user.id
         }
     else
+      puts "You failed to log in"
+      byebug
       render json: {
          errors: @user.errors.full_messages},
          status: :unprocessable_entity
