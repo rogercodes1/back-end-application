@@ -8,11 +8,11 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def create
-
+    byebug
     @user = User.new(get_params)
     @user.email = params[:email]
     @user.password = params[:password]
-
+    byebug
     if (@user.save)
       payload = {
 
