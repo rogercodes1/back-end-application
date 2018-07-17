@@ -9,7 +9,6 @@ class Api::V1::UsersController < ApplicationController
 
   def create
     byebug
-
     @user = User.new(get_params)
     @verify_user = User.find_by(email: params[:email])
     @user.email = params[:email]
@@ -17,7 +16,6 @@ class Api::V1::UsersController < ApplicationController
     byebug
     if (@verify_user === nil && @user.save )
       byebug
-      # IMPORTANT: set nil as password parameter
       token = generate_token
       byebug
       render json: {
@@ -27,11 +25,11 @@ class Api::V1::UsersController < ApplicationController
         status: :accepted
         }
     else
-      puts "You failed to log in"
       byebug
       render json: {
-         errors: @user.errors.full_messages},
+         errors: @user.errors.full_messages,
          status: :unprocessable_entity
+       }
     end
   end
 
