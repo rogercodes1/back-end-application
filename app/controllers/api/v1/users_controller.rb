@@ -17,18 +17,14 @@ class Api::V1::UsersController < ApplicationController
     byebug
     if (@verify_user === nil && @user.save )
       byebug
-      payload = {
-
-         email: @user.email,
-         id: @user.id
-       }
       # IMPORTANT: set nil as password parameter
-      token = JWT.encode payload, get_secret(), 'HS256'
+      token = generate_token
       byebug
       render json: {
         message: "You have been registed",
         token: token,
-        id: @user.id
+        id: @user.id,
+        status: :accepted
         }
     else
       puts "You failed to log in"
