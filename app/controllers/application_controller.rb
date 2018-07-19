@@ -8,6 +8,16 @@ class ApplicationController < ActionController::Base
    def get_token
       request.headers['Authorization']
    end
+   
+   def generate_token
+    # We will make a token here!
+    payload = {
+      email: @user.email,
+      id: @user.id
+    }
+    # IMPORTANT: set nil as password parameter
+    JWT.encode payload, get_secret(), 'HS256'
+    end
 
    # auth tons of routes really quickly  1:36
    def get_decoded_token

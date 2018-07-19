@@ -1,12 +1,14 @@
 class Api::V1::EventPlanningsController < ApplicationController
-  before_action :requires_login, only: [:index]
+  # before_action :requires_login, only: [:index]
 
   def index
+    byebug
     @event_plannings = EventPlanning.all
     render json: @event_plannings
   end
 
   def create
+    byebug
     @event_planning = EventPlanning.new(get_params)
 
     if (@event_planning.save)
@@ -18,10 +20,12 @@ class Api::V1::EventPlanningsController < ApplicationController
   end
 
   def show
+    byebug
     render json: EventPlanning.find(params[:user_id])
   end
 
   def update
+    byebug
     @event_planning = EventPlanning.find(params[:id])
 
     if @event_planning.update(get_params)
