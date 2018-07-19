@@ -8,16 +8,13 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def create
-    byebug
     @user = User.new(get_params)
     @verify_user = User.find_by(email: params[:email])
     @user.email = params[:email]
     @user.password = params[:password]
-    byebug
+
     if (@verify_user === nil && @user.save )
-      byebug
       token = generate_token
-      byebug
       render json: {
         message: "You have been registed",
         token: token,
@@ -25,7 +22,6 @@ class Api::V1::UsersController < ApplicationController
         status: :accepted
         }
     else
-      byebug
       render json: {
          errors: @user.errors.full_messages,
          status: :unprocessable_entity
