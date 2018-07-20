@@ -35,11 +35,19 @@ class Api::V1::UsersController < ApplicationController
     render json: @user, includes: [:transactions,:bills]
   end
 
-  # def user_transactions
-  #   byebug
-  #   render json: @user.transactions, include: :transactions
-  #
-  # end
+  def user_transactions
+    byebug
+    render json: @user.transactions, include: :bills
+
+  end
+  def user_events
+    render json: @user.transactions, include: :transactions
+
+  end
+  def user_bills
+    render json: @user.bills, include: :bills
+
+  end
 
   private
 
