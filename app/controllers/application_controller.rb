@@ -1,22 +1,23 @@
+require 'jwt'
 class ApplicationController < ActionController::Base
    protect_from_forgery with: :null_session
-
     def get_secret
       ENV['JWT_SECRET']
     end
 
    def get_token
+     puts "requet #{request.headers['Authorization']}"
       request.headers['Authorization']
    end
-   
-   def generate_token
-    # We will make a token here!
-    payload = {
-      email: @user.email,
-      id: @user.id
-    }
-    # IMPORTANT: set nil as password parameter
-    JWT.encode payload, get_secret(), 'HS256'
+
+    def generate_token
+      # We will make a token here!
+      payload = {
+        email: @user.email,
+        id: @user.id
+      }
+      # IMPORTANT: set nil as password parameter
+      JWT.encode payload, get_secret(), 'HS256'
     end
 
    # auth tons of routes really quickly  1:36
