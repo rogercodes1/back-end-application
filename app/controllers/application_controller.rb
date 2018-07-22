@@ -20,7 +20,7 @@ class ApplicationController < ActionController::Base
       JWT.encode payload, get_secret(), 'HS256'
     end
 
-   # auth tons of routes really quickly  1:36
+
    def get_decoded_token
      token = get_token()
       begin
